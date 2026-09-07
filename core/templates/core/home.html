@@ -1,0 +1,48 @@
+{% extends 'core/base.html' %}
+{% block title %}RePlate - Rescue Surplus Food{% endblock %}
+{% block content %}
+<section class="hero">
+    <h1>Save good food. Save money.</h1>
+    <p>Nearby shops list packed items about to expire at a discounted rate. Grab a bargain before it's gone.</p>
+    <form method="get" action="{% url 'core:product_list' %}" class="search-bar">
+        <input type="text" name="q" value="{{ query }}" placeholder="Search bakery, groceries, meals...">
+        <button type="submit">Search</button>
+    </form>
+    {% if not user.is_authenticated %}
+    <div class="hero-actions">
+        <a class="btn btn-primary" href="{% url 'core:customer_register' %}">Sign up as Customer</a>
+        <a class="btn btn-secondary" href="{% url 'core:seller_register' %}">Sign up as Seller</a>
+    </div>
+    {% endif %}
+</section>
+
+<section>
+    <h2>Latest deals</h2>
+    {% if products %}
+    <div class="product-grid">
+        {% for product in products %}
+        <div class="product-card {% if product.is_near_expiry %}near-expiry{% endif %}">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+                <div class="img-placeholder">No image</div>
+            {% endif %}
+            <h3>{{ product.name }}</h3>
+            <p class="shop">{{ product.seller.shop_name }}</p>
+            <p class="price">
+                <span class="strike">₹{{ product.original_price }}</span>
+                <span class="discounted">₹{{ product.discounted_price }}</span>
+                <span class="badge">-{{ product.discount_percent }}%</span>
+            </p>
+            <p class="expiry">Best before: {{ product.expiry_date }}
+                {% if product.is_near_expiry %}<strong>&nbsp;(expires soon!)</strong>{% endif %}
+            </p>
+            <a class="btn btn-small" href="{% url 'core:place_order' product.id %}">View / Order</a>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p>No listings right now{% if query %} for "{{ query }}"{% endif %}. Check back soon!</p>
+    {% endif %}
+</section>
+{% endblock %}

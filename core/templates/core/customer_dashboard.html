@@ -1,0 +1,33 @@
+{% extends 'core/base.html' %}
+{% block title %}Customer Dashboard{% endblock %}
+{% block content %}
+<h2>Welcome back, {{ user.username }}!</h2>
+
+<div class="dashboard-actions">
+    <a class="btn btn-primary" href="{% url 'core:product_list' %}">Browse Deals</a>
+    <a class="btn btn-secondary" href="{% url 'core:order_history' %}">View All Orders</a>
+</div>
+
+<h3>Recent Orders</h3>
+{% if orders %}
+<table class="data-table">
+    <thead>
+        <tr><th>Product</th><th>Shop</th><th>Qty</th><th>Total Paid</th><th>Status</th><th>Placed On</th></tr>
+    </thead>
+    <tbody>
+    {% for order in orders %}
+        <tr>
+            <td>{{ order.product.name }}</td>
+            <td>{{ order.seller.shop_name }}</td>
+            <td>{{ order.quantity }}</td>
+            <td>₹{{ order.total_price }}</td>
+            <td>{{ order.get_status_display }}</td>
+            <td>{{ order.created_at|date:"d M Y, H:i" }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>You haven't placed any orders yet. <a href="{% url 'core:product_list' %}">Find a deal now.</a></p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'core/base.html' %}
+{% block title %}{% if mode == 'edit' %}Edit Product{% else %}List a Product{% endif %}{% endblock %}
+{% block content %}
+<div class="auth-box wide">
+    <h2>{% if mode == 'edit' %}Edit "{{ product.name }}"{% else %}List a New Product{% endif %}</h2>
+    <p class="hint">Tip: list packed items nearing their best-before date at a discount instead of throwing them away.</p>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">
+            {% if mode == 'edit' %}Save Changes{% else %}List Product{% endif %}
+        </button>
+    </form>
+</div>
+{% endblock %}

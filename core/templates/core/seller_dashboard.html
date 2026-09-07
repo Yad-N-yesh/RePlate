@@ -1,0 +1,81 @@
+{% extends 'core/base.html' %}
+{% block title %}Seller Dashboard{% endblock %}
+{% block content %}
+<h2>{{ user.seller_profile.shop_name }} - Seller Dashboard</h2>
+
+<div class="dashboard-actions">
+    <a class="btn btn-primary" href="{% url 'core:product_add' %}">+ List New Product</a>
+</div>
+
+<div class="stats-row">
+    <div class="stat-card">
+        <span class="stat-label">Your Net Earnings</span>
+        <span class="stat-value">₹{{ total_earnings }}</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label">Platform Commission Paid</span>
+        <span class="stat-value">₹{{ total_commission_paid }}</span>
+        <span class="stat-sub">({{ commission_percent }}% per sale, deducted automatically)</span>
+    </div>
+</div>
+
+<h3>Your Listings</h3>
+{% if products %}
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>Name</th><th>Price</th><th>Qty Left</th><th>Expiry</th>
+            <th>Status</th><th>Your Earning/Unit</th><th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for product in products %}
+        <tr>
+            <td>{{ product.name }}</td>
+            <td>₹{{ product.discounted_price }} <span class="strike">₹{{ product.original_price }}</span></td>
+            <td>{{ product.quantity_available }}</td>
+            <td>{{ product.expiry_date }}{% if product.is_expired %} <strong>(expired)</strong>{% endif %}</td>
+            <td>{% if product.is_active and product.quantity_available > 0 and not product.is_expired %}Live{% else %}Inactive{% endif %}</td>
+            <td>₹{{ product.seller_earning_per_unit }}
+                <span class="hint">(commission ₹{{ product.commission_amount }} deducted)</span>
+            </td>
+            <td>
+                <a href="{% url 'core:product_edit' product.id %}">Edit</a>
+                <form method="post" action="{% url 'core:product_delete' product.id %}" class="inline-form"
+                      onsubmit="return confirm('Remove this listing?');">
+                    {% csrf_token %}
+                    <button type="submit" class="link-btn">Delete</button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>You haven't listed any products yet. <a href="{% url 'core:product_add' %}">List your first item.</a></p>
+{% endif %}
+
+<h3>Recent Sales</h3>
+{% if sales %}
+<table class="data-table">
+    <thead>
+        <tr><th>Product</th><th>Customer</th><th>Qty</th><th>Customer Paid</th><th>Commission</th><th>Your Earning</th><th>Date</th></tr>
+    </thead>
+    <tbody>
+    {% for sale in sales %}
+        <tr>
+            <td>{{ sale.product.name }}</td>
+            <td>{{ sale.customer.user.username }}</td>
+            <td>{{ sale.quantity }}</td>
+            <td>₹{{ sale.total_price }}</td>
+            <td>₹{{ sale.commission_amount_total }}</td>
+            <td>₹{{ sale.seller_earning_total }}</td>
+            <td>{{ sale.created_at|date:"d M Y, H:i" }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No sales yet.</p>
+{% endif %}
+{% endblock %}

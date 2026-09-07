@@ -1,0 +1,110 @@
+{% extends 'core/base.html' %}
+{% block title %}Order {{ product.name }}{% endblock %}
+{% block content %}
+<div class="order-page">
+    <div class="product-detail">
+        {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        {% endif %}
+        <h2>{{ product.name }}</h2>
+        <p class="shop">Sold by {{ product.seller.shop_name }}</p>
+        <p>{{ product.description }}</p>
+        <p class="price">
+            <span class="strike">₹{{ product.original_price }}</span>
+            <span class="discounted">₹{{ product.discounted_price }}</span>
+            <span class="badge">-{{ product.discount_percent }}%</span>
+        </p>
+        <p><strong>{{ product.quantity_available }}</strong> unit(s) left</p>
+        <p class="expiry">Best before: <strong>{{ product.expiry_date }}</strong>
+            {% if product.is_near_expiry %} &mdash; expiring very soon!{% endif %}
+        </p>
+        {% if product.pickup_window %}<p>Pickup window: {{ product.pickup_window }}</p>{% endif %}
+    </div>
+
+    <div class="order-form-box">
+        <h3>Place Your Order</h3>
+        <form method="post" id="order-form">
+            {% csrf_token %}
+            <p>
+                <label for="{{ form.quantity.id_for_label }}">Quantity</label>
+                {{ form.quantity }}
+                {{ form.quantity.errors }}
+            </p>
+
+            <!-- Hidden checkbox that the modal controls; real submission requires acceptance -->
+            <div class="disclaimer-field">
+                {{ form.disclaimer_accepted }}
+                <label for="{{ form.disclaimer_accepted.id_for_label }}">
+                    I have read and accept the expiry disclaimer
+                </label>
+                {{ form.disclaimer_accepted.errors }}
+            </div>
+
+            <button type="submit" id="place-order-btn" class="btn btn-primary" disabled>
+                Place Order
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- ============ Mandatory disclaimer modal ============ -->
+<div id="disclaimer-modal" class="modal-overlay">
+    <div class="modal-box">
+        <h3>⚠️ Important: Please Read Before Ordering</h3>
+        <div class="modal-body">
+            <p>
+                This item is being sold <strong>close to its expiry / best-before date
+                ({{ product.expiry_date }})</strong> at a discounted price because the seller
+                is trying to prevent good food from going to waste.
+            </p>
+            <ul>
+                <li>You must consume or use this product <strong>before its expiry date</strong>.</li>
+                <li>Please check the packaging, seal, and condition of the item yourself at pickup.</li>
+                <li>RePlate and the seller are <strong>not responsible for any illness, allergic
+                    reaction, or other aftermath</strong> resulting from consuming this item after
+                    its expiry date or from improper storage/handling after pickup.</li>
+                <li>By accepting, you confirm you understand the item is near expiry and agree to
+                    use your own judgement before consuming it.</li>
+            </ul>
+            <p>By clicking "I Understand & Accept" you agree to the above and confirm you wish to proceed.</p>
+        </div>
+        <div class="modal-actions">
+            <button type="button" id="decline-btn" class="btn btn-secondary">Cancel</button>
+            <button type="button" id="accept-btn" class="btn btn-primary">I Understand &amp; Accept</button>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var modal = document.getElementById('disclaimer-modal');
+    var checkbox = document.getElementById('{{ form.disclaimer_accepted.id_for_label }}');
+    var placeOrderBtn = document.getElementById('place-order-btn');
+    var acceptBtn = document.getElementById('accept-btn');
+    var declineBtn = document.getElementById('decline-btn');
+
+    // Hide the raw checkbox; the modal is the only way to tick it.
+    checkbox.closest('.disclaimer-field').style.display = 'none';
+
+    function syncButton() {
+        placeOrderBtn.disabled = !checkbox.checked;
+    }
+
+    // Show modal on load unless already accepted (e.g. form re-render after a validation error).
+    if (!checkbox.checked) {
+        modal.style.display = 'flex';
+    }
+    syncButton();
+
+    acceptBtn.addEventListener('click', function () {
+        checkbox.checked = true;
+        modal.style.display = 'none';
+        syncButton();
+    });
+
+    declineBtn.addEventListener('click', function () {
+        window.location.href = "{% url 'core:product_list' %}";
+    });
+});
+</script>
+{% endblock %}

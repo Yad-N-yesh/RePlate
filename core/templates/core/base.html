@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}RePlate{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+</head>
+<body>
+    <header class="navbar">
+        <a href="{% url 'core:home' %}" class="brand">RePlate</a>
+        <nav>
+            <a href="{% url 'core:product_list' %}">Browse Deals</a>
+            {% if user.is_authenticated %}
+                {% if user.customer_profile %}
+                    <a href="{% url 'core:customer_dashboard' %}">My Dashboard</a>
+                    <a href="{% url 'core:order_history' %}">My Orders</a>
+                {% elif user.seller_profile %}
+                    <a href="{% url 'core:seller_dashboard' %}">Seller Dashboard</a>
+                    <a href="{% url 'core:product_add' %}">+ List Product</a>
+                {% endif %}
+                <span class="hello">Hi, {{ user.username }}</span>
+                <a href="{% url 'core:logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'core:customer_login' %}">Customer Login</a>
+                <a href="{% url 'core:seller_login' %}">Seller Login</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main class="container">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="message {{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <p>RePlate &mdash; rescuing good food from going to waste.</p>
+    </footer>
+</body>
+</html>

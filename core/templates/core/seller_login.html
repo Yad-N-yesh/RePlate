@@ -1,0 +1,14 @@
+{% extends 'core/base.html' %}
+{% block title %}Seller Login{% endblock %}
+{% block content %}
+<div class="auth-box">
+    <h2>Seller Login</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Log In</button>
+    </form>
+    <p>New seller? <a href="{% url 'core:seller_register' %}">Register your shop</a></p>
+    <p>Are you a customer? <a href="{% url 'core:customer_login' %}">Customer login</a></p>
+</div>
+{% endblock %}

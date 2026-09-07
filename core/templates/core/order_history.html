@@ -1,0 +1,26 @@
+{% extends 'core/base.html' %}
+{% block title %}My Orders{% endblock %}
+{% block content %}
+<h2>My Orders</h2>
+{% if orders %}
+<table class="data-table">
+    <thead>
+        <tr><th>Product</th><th>Shop</th><th>Qty</th><th>Total Paid</th><th>Status</th><th>Placed On</th></tr>
+    </thead>
+    <tbody>
+    {% for order in orders %}
+        <tr>
+            <td>{{ order.product.name }}</td>
+            <td>{{ order.seller.shop_name }}</td>
+            <td>{{ order.quantity }}</td>
+            <td>₹{{ order.total_price }}</td>
+            <td>{{ order.get_status_display }}</td>
+            <td>{{ order.created_at|date:"d M Y, H:i" }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No orders yet. <a href="{% url 'core:product_list' %}">Browse deals</a> to get started.</p>
+{% endif %}
+{% endblock %}
