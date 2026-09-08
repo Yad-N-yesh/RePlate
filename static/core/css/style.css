@@ -149,3 +149,29 @@ body {
 .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 18px; }
 
 .footer { text-align: center; padding: 20px; color: #888; font-size: 0.85rem; }
+
+
+/*edits by yad */
+
+.button22 {
+  font-size: 1rem;
+  color: #fafafa;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 2px solid #fafafa;
+  background: #252525;
+  box-shadow: 3px 3px #fafafa;
+  cursor: pointer;
+  margin: 5px 0;
+
+  display: inline-block;
+  text-decoration: none;
+}
+
+.button22:active {
+  box-shadow: none;
+  transform: translate(3px, 3px);
+}
+
+

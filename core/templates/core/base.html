@@ -11,7 +11,8 @@
     <header class="navbar">
         <a href="{% url 'core:home' %}" class="brand">RePlate</a>
         <nav>
-            <a href="{% url 'core:product_list' %}">Browse Deals</a>
+            <button>Button</button>
+            <a href="{% url 'core:product_list' %}" class="">Browse Deals</a>
             {% if user.is_authenticated %}
                 {% if user.customer_profile %}
                     <a href="{% url 'core:customer_dashboard' %}">My Dashboard</a>
@@ -23,8 +24,8 @@
                 <span class="hello">Hi, {{ user.username }}</span>
                 <a href="{% url 'core:logout' %}">Logout</a>
             {% else %}
-                <a href="{% url 'core:customer_login' %}">Customer Login</a>
-                <a href="{% url 'core:seller_login' %}">Seller Login</a>
+                <a href="{% url 'core:customer_login' %}" class="button22">Customer Login</a>
+                <a href="{% url 'core:seller_login' %}" class="button22">Seller Login</a>
             {% endif %}
         </nav>
     </header>
