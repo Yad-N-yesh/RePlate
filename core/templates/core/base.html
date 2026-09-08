@@ -42,6 +42,32 @@
     </main>
 
 
+    <!-- Custom Cursor JavaScript -->
+    <script>
+
+        const cursor = document.getElementById("customCursor");
+
+        document.addEventListener("mousemove", function(event) {
+
+            cursor.style.left = event.clientX + "px";
+            cursor.style.top = event.clientY + "px";
+
+            const edge = 5;
+
+            if (
+                event.clientX <= edge ||
+                event.clientY <= edge ||
+                event.clientX >= window.innerWidth - edge ||
+                event.clientY >= window.innerHeight - edge
+            ) {
+                cursor.style.display = "none";
+            } else {
+                cursor.style.display = "block";
+            }
+
+        });
+
+    </script>
     
 
     <footer class="footer">
