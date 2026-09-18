@@ -19,29 +19,8 @@ from .models import CustomerProfile, Order, Product, SellerProfile
 # ---------------------------------------------------------------------------
 
 def home(request):
-    """Landing page: shows a preview of live listings + search box."""
-    query = request.GET.get('q', '').strip()
-
-    products = Product.objects.filter(
-        is_active=True, quantity_available__gt=0
-    ).select_related('seller').order_by('expiry_date')
-
-    if query:
-        products = products.filter(
-            Q(name__icontains=query) |
-            Q(description__icontains=query) |
-            Q(category__icontains=query) |
-            Q(seller__shop_name__icontains=query)
-        )
-
-    # Only ever show non-expired items to customers.
-    products = [p for p in products if not p.is_expired()][:24]
-
-    context = {
-        'products': products,
-        'query': query,
-    }
-    return render(request, 'core/home.html', context)
+    """Landing page for RePlate."""
+    return render(request, 'core/home.html')
 
 
 def logout_view(request):
