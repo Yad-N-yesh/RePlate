@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.db import models
 # models module is a collection of Django's database-related tools.
 from django.utils import timezone
+#
 
 #models conatains the structure of data you want to store in your database.
 #if you add something or make any change in it bash-python manage.py makemigrations 
