@@ -171,7 +171,14 @@ body {
     z-index: 999999;
 }
 
+<<<<<<< HEAD
 /*  REPLATE HOMEPAGE SECTIONS */
+=======
+
+/* ========================================
+   REPLATE HOMEPAGE SECTIONS
+======================================== */
+>>>>>>> 74f439297f9c66cba93c9778e9f028e3c517d473
 
 .home-section {
     max-width: 900px;
