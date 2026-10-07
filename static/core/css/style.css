@@ -158,32 +158,20 @@ body {
 .button22:active {
   box-shadow: none;
   transform: translate(3px, 3px);
-
+}
 
 /* Custom mouse cursor */
 #customCursor {
     position: fixed;
-
-    left: -3px;
-    top: -3px;
-
-    width: 5px;
-    height: 5px;
-
-    border: 5px solid black;
-
+    width: 10px;
+    height: 10px;
+    background: black;
     border-radius: 50%;
-
     pointer-events: none;
-
-    transform: translate(-50%, -50%);
-
-    z-index: 99999;
+    z-index: 999999;
 }
 
-/* ========================================
-   REPLATE HOMEPAGE SECTIONS
-======================================== */
+/*  REPLATE HOMEPAGE SECTIONS */
 
 .home-section {
     max-width: 900px;
@@ -290,7 +278,7 @@ body {
     font-size: 0.9rem;
     line-height: 1.6;
 }
-}
+
  .images { 
     max-width: 100%; 
     border-radius: 12px;

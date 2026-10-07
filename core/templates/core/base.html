@@ -11,6 +11,9 @@
     
   <div id="customCursor"></div>
 
+  
+
+
     <header class="navbar">
         <a href="{% url 'core:home' %}" class="brand">RePlate</a>
         <nav>
@@ -48,32 +51,32 @@
 
 
     <!-- Custom Cursor JavaScript -->
-    <script>
+<script>
+    const cursor = document.getElementById("customCursor");
 
-        const cursor = document.getElementById("customCursor");
+    let mouseX = 0;
+    let mouseY = 0;
 
-        document.addEventListener("mousemove", function(event) {
+    let cursorX = 0;
+    let cursorY = 0;
 
-            cursor.style.left = event.clientX + "px";
-            cursor.style.top = event.clientY + "px";
+    document.addEventListener("mousemove", function(event) {
+        mouseX = event.clientX;
+        mouseY = event.clientY;
+    });
 
-            const edge = 5;
+    function animateCursor() {
+        cursorX += (mouseX - cursorX) * 0.12;
+        cursorY += (mouseY - cursorY) * 0.12;
 
-            if (
-                event.clientX <= edge ||
-                event.clientY <= edge ||
-                event.clientX >= window.innerWidth - edge ||
-                event.clientY >= window.innerHeight - edge
-            ) {
-                cursor.style.display = "none";
-            } else {
-                cursor.style.display = "block";
-            }
+        cursor.style.left = cursorX + "px";
+        cursor.style.top = cursorY + "px";
 
-        });
+        requestAnimationFrame(animateCursor);
+    }
 
-    </script>
-    
+    animateCursor();
+</script>
 
     <footer class="footer">
         <p>RePlate &mdash; rescuing good food from going to waste.</p>
