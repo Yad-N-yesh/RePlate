@@ -1,116 +1,30 @@
 {% extends 'core/base.html' %}
 {% block title %}RePlate - Rescue Surplus Food{% endblock %}
 {% block content %}
+
 <section class="hero">
     <h1>Save good food. Save money.</h1>
-    <p>Nearby shops list packed items about to expire at a discounted rate. Grab a bargain before it's gone.</p>
+
+    <p>
+        Nearby shops list packed items about to expire at a discounted rate.
+        Grab a bargain before it's gone.
+    </p>
     
     {% if not user.is_authenticated %}
     <div class="hero-actions">
-        <a class="btn btn-primary" href="{% url 'core:customer_register' %}">Sign up as Customer</a>
-        <a class="btn btn-secondary" href="{% url 'core:seller_register' %}">Sign up as Seller</a>
+        <a class="btn btn-primary" href="{% url 'core:customer_register' %}">
+            Sign up as Customer
+        </a>
+
+        <a class="btn btn-secondary" href="{% url 'core:seller_register' %}">
+            Sign up as Seller
+        </a>
     </div>
     {% endif %}
 </section>
 
-<body>
-    <p>
-        hello everyone this is Replate 
-        the online platform where you as a customer can get food item on discounted price 
-        and for the sellers you can list your soon too be expiring producs here 
-    </p>
-
-
-    <br>
-    <br>
-    <p>
-        ok so this actually aims for saving food as many of the restaurants have expiring food but cannot do anythign with but throw it away so 
-        in order to 
-    </p>
-</body>
-
-<body>
-    <p>
-        hello everyone this is Replate 
-        the online platform where you as a customer can get food item on discounted price 
-        and for the sellers you can list your soon too be expiring producs here 
-    </p>
-
-
-    <br>
-    <br>
-    <p>
-        ok so this actually aims for saving food as many of the restaurants have expiring food but cannot do anythign with but throw it away so 
-        in order to 
-    </p>
-</body>
-
-<body>
-    <p>
-        hello everyone this is Replate 
-        the online platform where you as a customer can get food item on discounted price 
-        and for the sellers you can list your soon too be expiring producs here 
-    </p>
-
-
-    <br>
-    <br>
-    <p>
-        ok so this actually aims for saving food as many of the restaurants have expiring food but cannot do anythign with but throw it away so 
-        in order to 
-    </p>
-</body>
-
-<body>
-    <p>
-        hello everyone this is Replate 
-        the online platform where you as a customer can get food item on discounted price 
-        and for the sellers you can list your soon too be expiring producs here 
-    </p>
-
-
-    <br>
-    <br>
-    <p>
-        ok so this actually aims for saving food as many of the restaurants have expiring food but cannot do anythign with but throw it away so 
-        in order to 
-    </p>
-</body>
-
-
-<body>
-    <p>
-        hello everyone this is Replate 
-        the online platform where you as a customer can get food item on discounted price 
-        and for the sellers you can list your soon too be expiring producs here 
-    </p>
-
-
-    <br>
-    <br>
-    <p>
-        ok so this actually aims for saving food as many of the restaurants have expiring food but cannot do anythign with but throw it away so 
-        in order to 
-    </p>
-</body>
 
 
 
-<body>
-    <p>
-        hello everyone this is Replate 
-        the online platform where you as a customer can get food item on discounted price 
-        and for the sellers you can list your soon too be expiring producs here 
-    </p>
 
-
-    <br>
-    <br>
-    <p>
-        ok so this actually aims for saving food as many of the restaurants have expiring food but cannot do anythign with but throw it away so 
-        in order to 
-    </p>
-</body>
 {% endblock %}
-
-
