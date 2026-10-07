@@ -1,10 +1,10 @@
 {% extends 'core/base.html' %}
 {% block title %}RePlate - Rescue Surplus Food{% endblock %}
 {% block content %}
-
+{% load static %}
 <section class="hero">
     <h1>Save good food. Save money.</h1>
-
+    <img src="{% static 'core/images/canvas.png'%}" alt="image of cute food">
     <p>
         Nearby shops list packed items about to expire at a discounted rate.
         Grab a bargain before it's gone.
@@ -19,6 +19,18 @@
         <a class="btn btn-secondary" href="{% url 'core:seller_register' %}">
             Sign up as Seller
         </a>
+    </div>
+    <div class="intro">
+        
+        <H1>FIGHT FOOD WASTE WITH REPLATE</H1>
+        <p>RePlate is an website that connects people with unsold food from local grocery stores at roughly a half of the original price. Businesses put up their 'About to expire' at the end of the day, and customers reserve and pick it up through the Website. The result is less food in the bin, extra revenue for businesses, and a cheaper meal for the customer.</p>
+        <p>
+        <h1>OUR BUSINESS MODEL</h1>
+        We operate a win-win-win business model: for people, profit and the planet.
+
+        RePlate's focus is to help save good food from going to waste. By doing so, we help businesses unlock revenue from their product, help consumers enjoy good food at great value for money
+        </p>
+
     </div>
     {% endif %}
 </section>
