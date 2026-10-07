@@ -14,7 +14,7 @@
     <header class="navbar">
         <a href="{% url 'core:home' %}" class="brand">RePlate</a>
         <nav>
-            <button>Button</button>
+            
             <a href="{% url 'core:product_list' %}" class="">Browse Deals</a>
             {% if user.is_authenticated %}
                 {% if user.customer_profile %}
