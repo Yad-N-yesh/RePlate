@@ -1,5 +1,6 @@
-from django import forms
+from django import forms #create a form that accepts a type of data ex:char,int
 from django.contrib.auth.models import User
+from django.utils import timezone #to set time from current only
 
 from .models import CustomerProfile, SellerProfile, Product
 
@@ -9,7 +10,7 @@ class CustomerRegisterForm(forms.Form):
     email = forms.EmailField(required=False)
     phone_number = forms.CharField(max_length=20, required=False)
     address = forms.CharField(max_length=255, required=False)
-    password = forms.CharField(widget=forms.PasswordInput)
+    password = forms.CharField(widget=forms.PasswordInput) #widget makes password look like *****
     confirm_password = forms.CharField(widget=forms.PasswordInput)
 
     def clean_username(self):
@@ -63,7 +64,11 @@ class ProductForm(forms.ModelForm):
             'quantity_available', 'expiry_date', 'pickup_window',
         ]
         widgets = {
-            'expiry_date': forms.DateInput(attrs={'type': 'date'}),
+            'expiry_date': forms.DateInput(
+                attrs={
+                    'type': 'date',
+                    'min':timezone.now().date().isoformat(),
+                    }),
             'description': forms.Textarea(attrs={'rows': 3}),
         }
 

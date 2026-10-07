@@ -1,9 +1,18 @@
 from decimal import Decimal, ROUND_HALF_UP
+#decimal:accurate decimal-number calculations.
+#ROUND_HALF_UP: rounds half values upward.(9.5 -> 10)
+
 
 from django.contrib.auth.models import User
+# Django's built-in User model for handling user accounts.
 from django.db import models
+# models module is a collection of Django's database-related tools.
 from django.utils import timezone
+#
 
+#models conatains the structure of data you want to store in your database.
+#if you add something or make any change in it bash-python manage.py makemigrations 
+#then bash-python manage.py migrate
 
 class SellerProfile(models.Model):
     """Extra info attached to a User that represents a seller (shop)."""
