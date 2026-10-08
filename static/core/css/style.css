@@ -317,3 +317,6 @@ body {
   border-radius: 12px;
 }
 
+.browse-deals {
+    min-height: 70vh;
+}

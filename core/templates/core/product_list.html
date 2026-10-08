@@ -1,6 +1,7 @@
 {% extends 'core/base.html' %}
 {% block title %}Browse Deals{% endblock %}
 {% block content %}
+<div class="browse-deals">
 <h2>Browse Deals</h2>
 
 <form method="get" class="search-bar filters">
@@ -42,4 +43,5 @@
 {% else %}
 <p>No products match your search.</p>
 {% endif %}
+</div>
 {% endblock %}
