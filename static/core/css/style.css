@@ -283,3 +283,37 @@ body {
     max-width: 100%; 
     border-radius: 12px;
      margin: 20px 0; }
+
+.split-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.split-text {
+  flex: 1;
+  text-align: left;
+}
+
+.logo {
+ width: 300px;        /* change this to resize */
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+@media (max-width: 700px) {
+  .split-row {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+.side-img {
+  width: 300px;        /* change this to resize */
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
