@@ -130,13 +130,21 @@ def customer_dashboard(request):
 
 
 def product_list(request):
-    """Browse + search all live listings (open to everyone, ordering requires login)."""
+    """Browse + search listings. Customers see all; sellers see their own."""
     query = request.GET.get('q', '').strip()
     category = request.GET.get('category', '').strip()
 
-    products = Product.objects.filter(
-        is_active=True, quantity_available__gt=0
-    ).select_related('seller').order_by('expiry_date')
+    if request.user.is_authenticated and hasattr(request.user, 'seller_profile'):
+        products = Product.objects.filter(
+            seller=request.user.seller_profile,
+            is_active=True,
+            quantity_available__gt=0
+        ).select_related('seller').order_by('expiry_date')
+    else:
+        products = Product.objects.filter(
+            is_active=True,
+            quantity_available__gt=0
+        ).select_related('seller').order_by('expiry_date')
 
     if query:
         products = products.filter(
@@ -144,6 +152,7 @@ def product_list(request):
             Q(description__icontains=query) |
             Q(seller__shop_name__icontains=query)
         )
+
     if category:
         products = products.filter(category=category)
 
@@ -155,8 +164,8 @@ def product_list(request):
         'category': category,
         'categories': Product.CATEGORY_CHOICES,
     }
-    return render(request, 'core/product_list.html', context)
 
+    return render(request, 'core/product_list.html', context)
 
 @customer_required
 def place_order(request, product_id):
