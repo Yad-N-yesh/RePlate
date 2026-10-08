@@ -97,27 +97,47 @@ def customer_login(request):
 # Seller auth
 # ---------------------------------------------------------------------------
 
+
 def seller_register(request):
     if request.method == 'POST':
         form = SellerRegisterForm(request.POST)
+
         if form.is_valid():
             data = form.cleaned_data
-            user = User.objects.create_user(
-                username=data['username'], email=data.get('email', ''),
-                password=data['password'],
-            )
-            SellerProfile.objects.create(
-                user=user,
-                shop_name=data['shop_name'],
-                phone_number=data.get('phone_number', ''),
-                address=data.get('address', ''),
-            )
-            login(request, user)
-            messages.success(request, f"Welcome, {data['shop_name']}! Your seller account was created.")
-            return redirect('core:seller_dashboard')
+            email = data.get('email', '').strip()
+
+            if User.objects.filter(email__iexact=email).exists():
+                form.add_error('email', 'An account with this email already exists.')
+            else:
+                user = User.objects.create_user(
+                    username=data['username'],
+                    email=email,
+                    password=data['password'],
+                )
+
+                SellerProfile.objects.create(
+                    user=user,
+                    shop_name=data['shop_name'],
+                    phone_number=data.get('phone_number', ''),
+                    address=data.get('address', ''),
+                )
+
+                login(request, user)
+                messages.success(
+                    request,
+                    f"Welcome, {data['shop_name']}! Your seller account was created."
+                )
+                return redirect('core:seller_dashboard')
+
     else:
         form = SellerRegisterForm()
-    return render(request, 'core/seller_register.html', {'form': form})
+
+    return render(
+        request,
+        'core/seller_register.html',
+        {'form': form}
+    )
+
 
 
 def seller_login(request):
