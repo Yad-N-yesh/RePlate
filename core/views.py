@@ -33,26 +33,46 @@ def logout_view(request):
 # Customer auth
 # ---------------------------------------------------------------------------
 
+
 def customer_register(request):
     if request.method == 'POST':
         form = CustomerRegisterForm(request.POST)
+
         if form.is_valid():
             data = form.cleaned_data
-            user = User.objects.create_user(
-                username=data['username'], email=data.get('email', ''),
-                password=data['password'],
-            )
-            CustomerProfile.objects.create(
-                user=user,
-                phone_number=data.get('phone_number', ''),
-                address=data.get('address', ''),
-            )
-            login(request, user)
-            messages.success(request, f"Welcome, {user.username}! Your customer account was created.")
-            return redirect('core:customer_dashboard')
+            email = data.get('email', '').strip()
+
+            if User.objects.filter(email__iexact=email).exists():
+                form.add_error('email', 'An account with this email already exists.')
+            else:
+                user = User.objects.create_user(
+                    username=data['username'],
+                    email=email,
+                    password=data['password'],
+                )
+
+                CustomerProfile.objects.create(
+                    user=user,
+                    phone_number=data.get('phone_number', ''),
+                    address=data.get('address', ''),
+                )
+
+                login(request, user)
+                messages.success(
+                    request,
+                    f"Welcome, {user.username}! Your customer account was created."
+                )
+                return redirect('core:customer_dashboard')
+
     else:
         form = CustomerRegisterForm()
-    return render(request, 'core/customer_register.html', {'form': form})
+
+    return render(
+        request,
+        'core/customer_register.html',
+        {'form': form}
+    )
+
 
 
 def customer_login(request):
